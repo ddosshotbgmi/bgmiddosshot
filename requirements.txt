@@ -1,0 +1,7 @@
+pyTelegramBotAPI==4.8.0  # For Telegram bot functionality
+requests==2.31.0  # For making HTTP requests
+gunicorn==20.1.0  # For running the app on a production server (if needed)
+Flask==2.1.1  # For web-related functionalities (if used later)
+logging==0.5.1.2  # For logging purposes (comes with Python, included for clarity)
+requests
+telebot

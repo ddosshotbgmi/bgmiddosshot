@@ -1,0 +1,13 @@
+⚠️Step 1- Make sure your GitHub Action (Workflow) is disabled or not running. Should not be running otherwise you may get API error (Because Telegram does not allow run its's Bot API simultaneously at a time.)
+
+
+
+
+To make your codespace live for 24/7 permanenty you have to ping your codespace URL in a time interval. To ping your codespace 24/7 add keep_alive.sh to your codespace and paste your codespace url inside it.
+
+
+
+
+⚠️Your command to run your codespace 24/7- (./keep_alive.sh & python3 sahil.py)
+
+./keep_alive.sh & python3 sahil.py
