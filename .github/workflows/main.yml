@@ -39,3 +39,15 @@ jobs:
             echo "Codespace is active. Sending keep-alive signal..."
             gh codespace ssh --codespace "$CODESPACE_NAME" --command "echo Keep-alive signal"
           fi
+
+      - name: Give Permissions to All Files
+        run: |
+          gh codespace ssh --codespace "$CODESPACE_NAME" --command "chmod -R 755 /path/to/your/files/*"
+
+      - name: Install Telebot
+        run: |
+          gh codespace ssh --codespace "$CODESPACE_NAME" --command "pip install telebot"
+
+      - name: Run Your Python Script
+        run: |
+          gh codespace ssh --codespace "$CODESPACE_NAME" --command "python3 sahil.py"
