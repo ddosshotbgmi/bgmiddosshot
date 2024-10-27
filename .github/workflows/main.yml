@@ -22,7 +22,7 @@ jobs:
 
       - name: Check Codespace Status and Keep Alive
         run: |
-          CODESPACE_NAME="unhallowed-spooky-hobgoblin-q7pxxvgg4p67c9gjr"
+          CODESPACE_NAME="unhallowed-spooky-vampire-r4594xp5vw53rr5"
           STATUS=$(gh codespace list --json name,state -q ".[] | select(.name == \"$CODESPACE_NAME\") | .state")
           
           if [ -z "$STATUS" ]; then
@@ -39,15 +39,3 @@ jobs:
             echo "Codespace is active. Sending keep-alive signal..."
             gh codespace ssh --codespace "$CODESPACE_NAME" --command "echo Keep-alive signal"
           fi
-
-      - name: Give Permissions to All Files
-        run: |
-          gh codespace ssh --codespace "$CODESPACE_NAME" --command "chmod -R 755 /path/to/your/files/*"
-
-      - name: Install Telebot
-        run: |
-          gh codespace ssh --codespace "$CODESPACE_NAME" --command "pip install telebot"
-
-      - name: Run Your Python Script
-        run: |
-          gh codespace ssh --codespace "$CODESPACE_NAME" --command "python3 sahil.py"
