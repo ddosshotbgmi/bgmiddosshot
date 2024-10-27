@@ -9,27 +9,54 @@ jobs:
   restart_codespace:
     runs-on: ubuntu-latest
     steps:
-      - name: Install GitHub CLI
+      - name: Install GitHub CLI if not present
         run: |
           if ! command -v gh &> /dev/null; then
+            echo "Installing GitHub CLI..."
             sudo apt-get update
             sudo apt-get install -y gh jq
+          else
+            echo "GitHub CLI is already installed."
           fi
 
-      - name: Authenticate GitHub CLI
-        run: echo "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" | gh auth login --with-token
-
-      - name: Debugging
+      - name: Authenticate GitHub CLI with Personal Access Token
         run: |
-          pwd
-          ls -la
-          echo $PATH
+          echo "Authenticating GitHub CLI..."
+          echo "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" | gh auth login --with-token
+          echo "Authentication complete."
 
       - name: Check Codespace Status
         run: |
           CODESPACE_NAME="unhallowed-spooky-hobgoblin-q7pxxvgg4p67c9gjr"
-          # (Add your code checking status and handling here)
+          echo "Checking status of Codespace: $CODESPACE_NAME"
+          STATUS=$(gh codespace list --json name,state -q ".[] | select(.name == \"$CODESPACE_NAME\") | .state")
+          
+          if [ -z "$STATUS" ]; then
+            echo "Error fetching codespace status or codespace does not exist."
+            exit 1
+          fi
 
-      - name: Run Python Script
+          echo "Codespace status: $STATUS"
+
+          if [ "$STATUS" == "Shutdown" ]; then
+            echo "Codespace is offline. Attempting to start it..."
+            gh codespace ssh --codespace "$CODESPACE_NAME" --command "echo Codespace started!"
+          else
+            echo "Codespace is active. Sending keep-alive signal..."
+            gh codespace ssh --codespace "$CODESPACE_NAME" --command "echo Keep-alive signal"
+          fi
+
+      - name: Give Permissions to All Files
         run: |
+          echo "Giving permissions to all files..."
+          gh codespace ssh --codespace "$CODESPACE_NAME" --command "chmod -R 755 /path/to/your/files/*"
+
+      - name: Install Telebot
+        run: |
+          echo "Installing Telebot..."
+          gh codespace ssh --codespace "$CODESPACE_NAME" --command "pip install telebot"
+
+      - name: Run Your Python Script
+        run: |
+          echo "Running Python script..."
           gh codespace ssh --codespace "$CODESPACE_NAME" --command "python3 sahil.py"
