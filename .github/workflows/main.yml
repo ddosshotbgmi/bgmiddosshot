@@ -22,7 +22,7 @@ jobs:
 
       - name: Check Codespace Status and Keep Alive
         run: |
-          CODESPACE_NAME="unhallowed-spooky-vampire-r4594xp5vw53rr5"
+          CODESPACE_NAME="unhallowed-spooky-hobgoblin-q7pxxvgg4p67c9gjr"
           STATUS=$(gh codespace list --json name,state -q ".[] | select(.name == \"$CODESPACE_NAME\") | .state")
           
           if [ -z "$STATUS" ]; then
